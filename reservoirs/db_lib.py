@@ -121,16 +121,16 @@ class Reservoirs_Data(object):
 			dictionary = dict(record)
 		return dictionary["id"]
 
-	def generate_id_for_Reservoir(self):
+	def generate_id_for_reservoir(self):
 		sql = text("select id+1 as id from Reservoir order by id desc limit 1;")
 		sql_result = self._engine.execute(sql)
 		for record in sql_result:
 			dictionary = dict(record)
 		return dictionary["id"]
 
-	def insert_into_Reservoir(self, id, title):
-		sql = text("insert into Reservoir(id, title) values (:id, :title);")
-		sql_result = self._engine.execute(sql, {'id':id, 'title':title})
+	def insert_into_reservoir(self, id, title, type_id, square):
+		sql = text("insert into Reservoir(id, title, type_id, square) values (:id, :title,:type_id, :square);")
+		sql_result = self._engine.execute(sql, {'id':id, 'title':title, 'type_id':type_id, 'square':square})
 
 	def insert_into_Country_Language(self, country_id, language_id):
 		sql = text("insert into Country_Language(country_id, language_id) values (:country_id,:language_id);")
@@ -150,11 +150,23 @@ class Reservoirs_Data(object):
 			return dictionary["id"]
 		return False
 
-	def get_reservoir_id(self, reservoir_name):
-		sql = text("with qq as (select id as id from Reservoir where title = :reservoir_name) select iif(count(qq.id)=0, 0, qq.id) as id from qq;")
-		sql_result = self._engine.execute(sql, {'reservoir_name':str(reservoir_name)})
-		if sql_result:
-			for record in sql_result:
-				dictionary = dict(record)
-			return dictionary["id"]
-		return False
+	#def get_reservoir_id(self, reservoir_name):
+		#sql = text("with qq as (select id as id from Reservoir where title = :reservoir_name) select iif(count(qq.id)=0, 0, qq.id) as id from qq;")
+		#sql_result = self._engine.execute(sql, {'reservoir_name':str(reservoir_name)})
+		#if sql_result:
+			#for record in sql_result:
+				#dictionary = dict(record)
+			#return dictionary["id"]
+		#return False
+
+	def get_types(self):
+		sql = text("select Type.id as id, Type.name as name from Type;")
+		sql_result = self._engine.execute(sql)
+		ret = []
+		for record in sql_result:
+			ret.append(dict(record))
+		return ret 
+
+	def insert_into_Reservoir_Confluence(self, reservoir1_id, reservoir2_id):
+		sql = text("insert into Reservoir_Confluence(reservoir1_id, reservoir2_id) values(:reservoir1_id, :reservoir2_id);")
+		sql_result = self._engine.execute(sql, {'reservoir1_id':reservoir1_id, 'reservoir2_id':reservoir2_id})

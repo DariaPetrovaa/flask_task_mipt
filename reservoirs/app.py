@@ -78,6 +78,32 @@ def country_new():
 	print(reservoirs_list[0]['id'])
 	return flask.render_template("create_country.html", reservoirs_list=reservoirs_list, length=length)
 
+@app.route("/create_reservoir", methods=['GET','POST'])
+def reservoir_new():
+	if flask.request.method == "POST":
+		input=dict(**flask.request.form)
+		reservoir_id = bd.generate_id_for_reservoir()
+		title = input.pop('title', None)
+		square = input.pop('square', None)
+		type_id = flask.request.form.getlist('type')[0]
+		print(type_id)
+		bd.insert_into_reservoir(reservoir_id, title, type_id, square)
+		countries_id = flask.request.form.getlist('countries')
+		for country_id in countries_id:
+			bd.insert_into_Reservoir_Country(reservoir_id,country_id)
+		confluence_id = flask.request.form.getlist('confluence')
+		if confluence_id:
+			for reservoir2_id in confluence_id:
+				bd.insert_into_Reservoir_Confluence(reservoir_id, reservoir2_id)
+		return flask.redirect("/")
+	confluence_list = bd.get_reservoirs()
+	type_list = bd.get_types()
+	countries_list = bd.get_Countries()
+	len_type = len(type_list)
+	len_countries = len(countries_list)
+	len_confluence = len(confluence_list)
+	return flask.render_template("create_reservoir.html",confluence_list=confluence_list, type_list=type_list, countries_list=countries_list, len_type=len_type, len_countries=len_countries, len_confluence=len_confluence)
+
 app.run(host='0.0.0.0', port=5029)
 
 

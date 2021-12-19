@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action= "/create_reservoir" method="POST">
+        <div class="form-group">
+                <label for="title">"Название"</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+                <label for="square">"Площадь/Длина"</label>
+                <input type="text" class="form-control" id="square" name="square" required>
+        </div>
+        <div>
+                <div class="form-group">
+                <label for="type">Тип</label>
+                <select name="type" id="type"  required >
+			{% for i in range(len_type) %}
+			<option value="{{ type_list[i]['id'] }}">{{ type_list[i]['name'] }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div>
+                <div class="form-group">
+                <label for="countries">Страны принадлежности</label>
+                <select name="countries" id="countries"  multiple required >
+			{% for i in range(len_countries) %}
+                        <option value="{{ countries_list[i]['id'] }}">{{ countries_list[i]['name'] }}</option>
+                        {% endfor %}
+		</select>
+	</div>
+	<div>
+                <div class="form-group">
+                <label for="confluence">Впадающие водоемы</label>
+                <select name="confluence" id="confluence"  multiple >
+			{% for i in range(len_confluence) %}
+                        <option value="{{ confluence_list[i]['id'] }}">{{confluence_list[i]['title'] }}</option>
+                        {% endfor %}
+	</div>
+	<input type="submit" value="Создать" class=btn btn-primary"/>
+</form>
+
+{% endblock %}	
