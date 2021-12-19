@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<H3> {{ reservoir_title }} </H3>
+
+<p> Страны: 
+{% for i in range(length_countries) %}
+	{% if i != length_countries - 1 %}
+		<A href=../countries/{{countries_list[i]['id']}}>{{ countries_list[i]['countries'] }}</A>,
+	{% else %}
+		<A href=../countries/{{countries_list[i]['id']}}>{{ countries_list[i]['countries'] }}</A>.
+	{% endif %}
+{% endfor %}
+</p>
+<p> Тип: {{ type }}. </p>
+{% if type == "река" or type == "канал" %}
+	<p> Длина: {{ square }} км.</p>
+{% else %}
+	<p> Площадь: {{square }} кв.км.</p>
+{% endif %}
+
+{% if confluence_list %}
+	<p> Впадает в: 
+	{% for i in range(length) %}
+		{% if i != length-1 %}
+			<A href={{confluence_list[i]['id']}}>{{ confluence_list[i]['reservoirs'] }}</A>,
+		{% else %}
+			<A href={{confluence_list[i]['id']}}>{{ confluence_list[i]['reservoirs'] }}<A>.
+		{% endif%}	
+	{% endfor %}
+	</p>
+{% endif %}
+
+{% endblock %}
+

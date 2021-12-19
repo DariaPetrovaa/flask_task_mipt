@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action= "/create_country" method="POST">
+	<div class="form-group">
+		<label for="name">"Название"</label>
+		<input type="text" class="form-control" id="name" name="name" required>
+	</div>
+	<div class="form-group">
+                <label for="square">"Площадь"</label>
+                <input type="text" class="form-control" id="square" name="square" required>
+        </div>
+	<div class="form-group">
+                <label for="population">"Население"</label>
+                <input type="text" class="form-control" id="population" name="population" required>
+        </div>
+	<div class="form-group">
+                <label for="languages">"Официальные языки"</label>
+                <input type="text" class="form-control" id="languages" name="languages" required>
+        </div>
+	<div>
+		<div class="form-group">
+                <label for="reservoirs">"Протекающие реки и граничащие водоемы"</label>
+                <select name="reservoirs" id="reservoirs"  multiple >
+			{% for i in range(length) %}
+			<option value="{{ reservoirs_list[i]['id'] }}">{{ reservoirs_list[i]['title'] }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<input type="submit" value="Создать" class=btn btn-primary"/> 
+</form>
+	
+{% endblock %}

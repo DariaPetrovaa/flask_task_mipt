@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<H3> Водоемы </H3>
+
+{% for reservoir in reservoirs_list %}
+	<P><A href=reservoirs/{{reservoir["id"]}}>{{ reservoir["title"] }}</A></P>
+{% endfor %}
+{% endblock %}

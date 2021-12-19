@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<H3> Страны </H3>
+{% for country in Countries_list %}
+	<P><A href=countries/{{country["id"]}}>{{ country["name"] }}</A></P>
+{% endfor %}
+{% endblock %}
+
